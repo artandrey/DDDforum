@@ -1,57 +1,137 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="color-scheme" content="light only" />
-    <title>DDD Forum</title>
-    <link rel="stylesheet" href="index.css" />
-    <link rel="stylesheet" href="App.css" />
-  </head>
-  <body>
-    <div id="root">
-      <header id="header" class="flex align-center">
-        <div id="app-logo">
-          <img src="assets/dddforumlogo.png" />
-        </div>
-        <div id="title-container">
-          <h1>Domain-Driven Designers</h1>
-          <h3>Where awesome domain driven designers are made</h3>
-          <a href="/submit">submit</a>
-        </div>
-        <div id="header-action-button">
-          <a href="/register.html">Join</a>
-        </div>
-      </header>
-      <div class="content-container">
-        <div class="registration-form">
-          <div>Create Account</div>
-          <input class="registration email" type="email" placeholder="email" />
-          <input
-            class="registatation-input username"
-            type="text"
-            placeholder="username"
-          />
-          <input
-            class="registatation-input username"
-            type="text"
-            placeholder="first name"
-          />
-          <input
-            class="registatation-input username"
-            type="text"
-            placeholder="last name"
-          />
-          <div>
-            <div class="to-login">
-              <div>Already have an account?</div>
-              <a href="/login">Login</a>
+    <head>
+        <meta charset="UTF-8" />
+        <link
+            rel="icon"
+            type="image/svg+xml"
+            href="/vite.svg"
+        />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0"
+        />
+        <meta
+            name="color-scheme"
+            content="light only"
+        />
+        <title>DDD Forum</title>
+        <link
+            rel="stylesheet"
+            href="index.css"
+        />
+        <link
+            rel="stylesheet"
+            href="App.css"
+        />
+    </head>
+    <body>
+        <div id="root">
+            <header
+                id="header"
+                class="flex align-center"
+            >
+                <div id="app-logo">
+                    <img src="assets/dddforumlogo.png" />
+                </div>
+                <div id="title-container">
+                    <h1>Domain-Driven Designers</h1>
+                    <h3>Where awesome domain driven designers are made</h3>
+                    <a href="/submit">submit</a>
+                </div>
+                <div id="header-action-button">
+                    <a href="/register.html">Join</a>
+                </div>
+            </header>
+            <div class="content-container">
+                <div class="registration-form">
+                    <div>Create Account</div>
+                    <input
+                        class="registration email"
+                        type="email"
+                        placeholder="email"
+                        id="email"
+                    />
+                    <input
+                        class="registration-input username"
+                        type="text"
+                        placeholder="username"
+                        id="username"
+                    />
+                    <input
+                        class="registration-input first-name"
+                        type="text"
+                        placeholder="first name"
+                        id="firstName"
+                    />
+                    <input
+                        class="registration-input last-name"
+                        type="text"
+                        placeholder="last name"
+                        id="lastName"
+                    />
+                    <input
+                        class="registration-input password"
+                        type="password"
+                        placeholder="password"
+                        id="password"
+                    />
+                    <div>
+                        <div class="to-login">
+                            <div>Already have an account?</div>
+                            <a href="/login">Login</a>
+                        </div>
+                        <button
+                            class="submit-button"
+                            type="submit"
+                            id="submit"
+                        >
+                            Submit
+                        </button>
+                    </div>
+                </div>
             </div>
-            <button class="submit-button" type="submit">Submit</button>
-          </div>
         </div>
-      </div>
-    </div>
-  </body>
+
+        <script>
+            document
+                .getElementById('submit')
+                .addEventListener('click', async (event) => {
+                    event.preventDefault();
+
+                    const email = document.getElementById('email').value;
+                    const username = document.getElementById('username').value;
+                    const firstName =
+                        document.getElementById('firstName').value;
+                    const lastName = document.getElementById('lastName').value;
+                    const password = document.getElementById('password').value;
+
+                    const response = await fetch(
+                        'http://localhost:3000/users/new',
+                        {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({
+                                email,
+                                username,
+                                firstName,
+                                lastName,
+                                password,
+                            }),
+                        }
+                    );
+
+                    const result = await response.json();
+
+                    if (result.success) {
+                        alert('Account created successfully!');
+                        // Redirect to another page or clear the form
+                    } else {
+                        alert('Error: ' + result.error);
+                    }
+                });
+        </script>
+    </body>
 </html>
